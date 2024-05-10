@@ -17,6 +17,9 @@
       <UniqueIdentifier>{6df76309-ee6a-404d-9cac-5a41f55905e0}</UniqueIdentifier>
       <Extensions>idx;xml;png;gif;jpg;ico;lua;bmp</Extensions>
     </Filter>
+    <Filter Include="控件">
+      <UniqueIdentifier>{43f64a7f-2665-495d-b499-85a25e067881}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="license.txt" />
@@ -31,6 +34,21 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoxContainer.cpp">
+      <Filter>控件</Filter>
+    </ClCompile>
+    <ClCompile Include="CJsonArray.cpp">
+      <Filter>控件</Filter>
+    </ClCompile>
+    <ClCompile Include="CJsonObject.cpp">
+      <Filter>控件</Filter>
+    </ClCompile>
+    <ClCompile Include="CJsonRoot.cpp">
+      <Filter>控件</Filter>
+    </ClCompile>
+    <ClCompile Include="CJsonSubObject.cpp">
+      <Filter>控件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +65,21 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBoxContainer.h">
+      <Filter>控件</Filter>
+    </ClInclude>
+    <ClInclude Include="CJsonArray.h">
+      <Filter>控件</Filter>
+    </ClInclude>
+    <ClInclude Include="CJsonObject.h">
+      <Filter>控件</Filter>
+    </ClInclude>
+    <ClInclude Include="CJsonRoot.h">
+      <Filter>控件</Filter>
+    </ClInclude>
+    <ClInclude Include="CJsonSubObject.h">
+      <Filter>控件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

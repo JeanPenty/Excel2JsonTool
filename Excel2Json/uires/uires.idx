@@ -11,7 +11,20 @@
   	<file name="color" path="values\color.xml"/>
   	<file name="skin" path="values\skin.xml"/>
   </values>
+	<PNG>
+		<file name="IDB_PNG_SHADOW" path="image\shadow.png" />
+		<file name="IDB_PNG_SHADOW2" path="image\shadow2.png" />
+		<file name="IDB_PNG_BTNMIN" path="image\btn_min.png" />
+		<file name="IDB_PNG_BTNMAX" path="image\btn_max.png" />
+		<file name="IDB_PNG_BTNRESTORE" path="image\btn_restore.png" />
+		<file name="IDB_PNG_BTNCLOSE" path="image\btn_close.png" />
 
+		<file name="IDB_PNG_BTNSKIN" path="image\btn_skin.png" />
+		<file name="IDB_BTN_COMM60_30" path="image\btn_60_30.png" />
+
+		<file name="IDB_PNG_CBXBTN" path="image\cbx_btn.png" />
+		<file name="IDB_PNG_SB" path="image\sb.png" />
+	</PNG>
   <IMG>
   </IMG>
   <ICON>

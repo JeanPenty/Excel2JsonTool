@@ -1,4 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <skin>
+	<imgframe name="skin_shadow" src="PNG:IDB_PNG_SHADOW"/>
+	<imgframe name="skin_shadow2" src="PNG:IDB_PNG_SHADOW2"/>
+	<imglist name="skin_btn_min" src="PNG:IDB_PNG_BTNMIN" states="3" />
+	<imglist name="skin_btn_max" src="PNG:IDB_PNG_BTNMAX" states="3" />
+	<imglist name="skin_btn_restore" src="PNG:IDB_PNG_BTNRESTORE" states="3" />
+	<imglist name="skin_btn_close" src="PNG:IDB_PNG_BTNCLOSE" states="3" />
+	<imglist name="skin_btn_skin" src="PNG:IDB_PNG_BTNSKIN" states="3" />
+	<imglist name="skin_btn_comm60_30" src="PNG:IDB_BTN_COMM60_30" states="4"/>
+
+	<imglist name="skin_cbx_btn" src="PNG:IDB_PNG_CBXBTN" states="3" />
+	<scrollbar name="skin_scrollbar" src="PNG:IDB_PNG_SB" margin="3" hasgripper="0"/>
  	</skin>

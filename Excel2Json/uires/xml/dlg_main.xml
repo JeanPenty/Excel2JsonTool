@@ -13,7 +13,29 @@
       alpha="255">
 	<root>
 		<caption pos="0,0,-0,-0" skin="skin_shadow">
-			<caption pos="10,10,-10,-10" colorBkgnd="#FFFFFF">
+			<caption pos="15,15,-15,-15" colorBkgnd="#FFFFFF">
+				<text pos="10,0,-100,@40" font="face:微软雅黑,size:14">Excel2Json Tool</text>
+				<imgbtn name="btn_close" pos="-40,0" skin="skin_btn_close"/>
+				<imgbtn name="btn_max" pos="-70,0" skin="skin_btn_max" show="1" />
+				<imgbtn name="btn_restore" pos="-70,0" skin="skin_btn_restore" show="0" />
+				<imgbtn name="btn_min" pos="-100,0" skin="skin_btn_min"/>
+
+				<caption pos="5,[5,-5,@50" colorBkgnd="rgba(100,100,100,50)">
+					<caption pos="1,1,-1,-1" colorBkgnd="#FFFFFF">
+						<button name="btn_root" pos="10,15,@50,@20" focusable="0">根对象</button>
+						<button name="btn_array" pos="[10,{0,@50,@20" focusable="0">数组</button>
+						<button name="btn_obj" pos="[10,{0,@50,@20" focusable="0">对象</button>
+						<button name="btn_subobj" pos="[10,{0,@50,@20" focusable="0">子对象</button>
+					</caption>
+				</caption>
+				
+				<caption pos="5,[10,-5,-5" colorBkgnd="rgba(100,100,100,50)">
+					<caption pos="1,1,-1,-1" colorBkgnd="#FFFFFF">
+						<scrollview pos="0,0,-0,-0" name="scrollview" viewSize="-1,-1" sbSkin="skin_scrollbar" sbwid="8">
+							<containerbox name="containerbox" pos="0,0,@3000,@3000"></containerbox>
+						</scrollview>
+					</caption>
+				</caption>
 			</caption>
 		</caption>
 	</root>
