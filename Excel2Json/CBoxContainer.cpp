@@ -160,6 +160,8 @@ void CBoxContainer::OnPaint(IRenderTarget* pRT)
 
 void CBoxContainer::OnLButtonDown(UINT nFlags, SOUI::CPoint point)
 {
+	m_bContainerLBDown = true;
+
 	m_ptDown = point;
 
 	for (int i = 0; i < m_vecSelectObjs.size(); i++)
@@ -174,33 +176,8 @@ void CBoxContainer::OnLButtonDown(UINT nFlags, SOUI::CPoint point)
 	}
 	m_vecSelectObjs.clear();
 
-// 	bool bInObj = false;
-// 	for (int i = 0; i < GetChildrenCount(); i++)
-// 	{
-// 		SWindow* pChild = GetChild(i + 1);
-// 		CRect rcChild = pChild->GetWindowRect();
-// 		if (PtInRect(rcChild, point))
-// 			bInObj = true;
-// 
-// 		if (bInObj)
-// 		{
-// 			SStringW sstrClassName = pChild->GetObjectClass();
-// 			if (sstrClassName == L"json_root")
-// 			{
-// 				CJsonRoot* pRoot = sobj_cast<CJsonRoot>(pChild);
-// 				pRoot->setSelect(true);
-// 				m_vecSelectObjs.push_back(pChild);
-// 			}
-// 		}
-// 	}
-// 
-// 	if (!bInObj)  //将已选中的全置为未选中
-// 	{
-// 
-// 	}
 
 	//判断是否点击了已选中的
-
 	switch (m_curEcObjType)
 	{
 	case JsonNull:
@@ -222,6 +199,7 @@ void CBoxContainer::OnLButtonUp(UINT nFlags, SOUI::CPoint point)
 {
 	//m_curEcObjType = Null;
 	m_rcDrawArea.SetRectEmpty();
+	m_bContainerLBDown = false;
 }
 
 void CBoxContainer::OnMouseMove(UINT nFlags, SOUI::CPoint point)
@@ -330,7 +308,7 @@ bool CBoxContainer::OnEventJsonRootLButtonDown(EventJsonRootLButtonDown* pEvt)
 bool CBoxContainer::OnEventJsonRootLButtonUp(EventJsonRootLButtonUp* pEvt)
 {
 	CJsonRoot* pRoot = sobj_cast<CJsonRoot>(pEvt->sender);
-	if (pRoot)
+	if (pRoot && !m_bContainerLBDown)
 	{
 		switch (pEvt->m_ecPosType)
 		{
@@ -362,7 +340,7 @@ bool CBoxContainer::OnEventJsonRootLButtonUp(EventJsonRootLButtonUp* pEvt)
 bool CBoxContainer::OnEventJsonRootMouseMoveing(EventJsonRootMouseMoveing* pEvt)
 {
 	CJsonRoot* pRoot = sobj_cast<CJsonRoot>(pEvt->sender);
-	if (pRoot)
+	if (pRoot && !m_bContainerLBDown)
 	{
 		switch (pEvt->m_ecPosType)
 		{
@@ -383,11 +361,14 @@ bool CBoxContainer::OnEventJsonRootMouseMoveing(EventJsonRootMouseMoveing* pEvt)
 			SStringW sstrPos;
 			sstrPos.Format(L"%d,%d", nX, nY);
 			pRoot->SetAttribute(L"pos", sstrPos);
-
-// 			pRoot->setPosX(nX);
-// 			pRoot->setPosY(nY);
 		}
 		break;
+		case TopLeft:
+		{
+			//
+		}
+		break;
+
 		default:
 			break;
 		}

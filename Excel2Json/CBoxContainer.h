@@ -63,6 +63,8 @@ private:
 	SWindow*		m_curObject;
 
 	std::vector<std::vector<Point>> m_vecBezierPaths;
+
+	bool			m_bContainerLBDown;
 protected:
 	bool OnEventJsonRootLButtonDown(EventJsonRootLButtonDown* pEvt);
 	bool OnEventJsonRootLButtonUp(EventJsonRootLButtonUp* pEvt);

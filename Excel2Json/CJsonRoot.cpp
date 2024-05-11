@@ -5,6 +5,7 @@ CJsonRoot::CJsonRoot()
 {
 	m_bSelected = false;
 	m_bHover = false;
+	m_bLBDown - false;
 
 	m_hCursorSelect = LoadCursor(NULL, IDC_SIZEALL);
 	m_hCursorTopRight = LoadCursor(NULL, IDC_SIZENESW);
@@ -131,6 +132,7 @@ void CJsonRoot::OnLButtonDown(UINT nFlags, SOUI::CPoint point)
 void CJsonRoot::OnLButtonUp(UINT nFlags, SOUI::CPoint point)
 {
 	SetMsgHandled(FALSE);
+	
 	EventJsonRootLButtonUp evt(this);
 
 	EcPosType posType = HitPos(point);

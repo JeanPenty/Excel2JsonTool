@@ -68,6 +68,7 @@ protected:
 private:
 	bool m_bSelected;
 	bool m_bHover;
+	bool m_bLBDown;
 
 	SOUI::CPoint	m_ptDown;
 
