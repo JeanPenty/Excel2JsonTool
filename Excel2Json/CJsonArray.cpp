@@ -3,7 +3,7 @@
 
 CJsonArray::CJsonArray()
 {
-	m_bDrawBorder = true;
+	m_bDrawBorder = false;
 }
 
 CJsonArray::~CJsonArray()

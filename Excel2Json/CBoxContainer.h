@@ -5,12 +5,19 @@
 #include "CJsonObject.h"
 #include "CJsonSubObject.h"
 
+#include <vector>
+
 class CBoxContainer : public SWindow
 {
 	SOUI_CLASS_NAME(CBoxContainer, L"containerbox")
 public:
 	CBoxContainer(void);
 	~CBoxContainer(void);
+
+	struct Point {
+		float x, y;
+		Point(float x = 0, float y = 0) :x(x), y(y) {}
+	};
 
 protected:
 	void OnPaint(IRenderTarget* pRT);
@@ -22,9 +29,10 @@ protected:
 
 	void OnMouseMove(UINT nFlags, SOUI::CPoint point);
 
+	//LRESULT OnMouseEvent(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	SOUI_MSG_MAP_BEGIN()
 		MSG_WM_PAINT_EX(OnPaint)
-		MSG_WM_LBUTTONDOWN(OnLButtonDown)
+ 		MSG_WM_LBUTTONDOWN(OnLButtonDown)
 		MSG_WM_LBUTTONUP(OnLButtonUp)
  		MSG_WM_LBUTTONDBLCLK(OnLButtonDblClk)
 // 		MSG_WM_RBUTTONUP(OnRButtonUp)
@@ -46,6 +54,21 @@ private:
 
 
 	SOUI::CRect		m_rcDrawArea;			// Û±Í“∆∂Ø«¯”Ú
-
 	EcObjType		m_curEcObjType;
+
+
+	std::vector<SWindow*> m_vecSelectObjs;
+
+
+	SWindow*		m_curObject;
+
+	std::vector<std::vector<Point>> m_vecBezierPaths;
+protected:
+	bool OnEventJsonRootLButtonDown(EventJsonRootLButtonDown* pEvt);
+	bool OnEventJsonRootLButtonUp(EventJsonRootLButtonUp* pEvt);
+	bool OnEventJsonRootMouseMoveing(EventJsonRootMouseMoveing* pEvt);
+
+private:
+	int binomial(int n, int i);
+	Point bezier_curve(const std::vector<Point>& points, float t);
 };

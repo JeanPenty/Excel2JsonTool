@@ -3,7 +3,7 @@
 
 CJsonSubObject::CJsonSubObject()
 {
-	m_bDrawBorder = true;
+	m_bDrawBorder = false;
 }
 
 CJsonSubObject::~CJsonSubObject()
