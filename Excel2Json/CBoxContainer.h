@@ -53,22 +53,34 @@ private:
 	//SOUI::CPoint	m_ptObjLT;
 
 
-	SOUI::CRect		m_rcDrawArea;			//鼠标移动区域
-	EcObjType		m_curEcObjType;
+	SOUI::CRect	m_rcDrawArea;			//鼠标移动区域
+	EcObjType	m_curEcObjType;
 
 
 	std::vector<SWindow*> m_vecSelectObjs;
 
 
-	SWindow*		m_curObject;
+	SWindow*	m_curObject;
 
-	std::vector<std::vector<Point>> m_vecBezierPaths;
+	std::vector<std::vector<Point>>	m_vecBezierPaths;
 
-	bool			m_bContainerLBDown;
+	bool	m_bContainerLBDown;
+
+	int	m_nObjWidth;
+	int	m_nObjHeight;
+	int	m_nObjGap;
 protected:
 	bool OnEventJsonRootLButtonDown(EventJsonRootLButtonDown* pEvt);
 	bool OnEventJsonRootLButtonUp(EventJsonRootLButtonUp* pEvt);
 	bool OnEventJsonRootMouseMoveing(EventJsonRootMouseMoveing* pEvt);
+
+	bool OnEventJsonArrayLButtonDown(EventJsonArrayLButtonDown* pEvt);
+	bool OnEventJsonArrayLButtonUp(EventJsonArrayLButtonUp* pEvt);
+	bool OnEventJsonArrayMouseMoveing(EventJsonArrayMouseMoveing* pEvt);
+
+	bool OnEventJsonObjectLButtonDown(EventJsonObjectLButtonDown* pEvt);
+	bool OnEventJsonObjectLButtonUp(EventJsonObjectLButtonUp* pEvt);
+	bool OnEventJsonObjectMouseMoveing(EventJsonObjectMouseMoveing* pEvt);
 
 private:
 	int binomial(int n, int i);

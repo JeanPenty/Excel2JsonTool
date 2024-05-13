@@ -25,7 +25,7 @@
 						<button name="btn_root" pos="10,15,@50,@20" focusable="0">根对象</button>
 						<button name="btn_array" pos="[10,{0,@50,@20" focusable="0">数组</button>
 						<button name="btn_obj" pos="[10,{0,@50,@20" focusable="0">对象</button>
-						<button name="btn_subobj" pos="[10,{0,@50,@20" focusable="0">子对象</button>
+						<button name="btn_subobj" pos="[10,{0,@50,@20" focusable="0" show="0">子对象</button>
 					</caption>
 				</caption>
 				
