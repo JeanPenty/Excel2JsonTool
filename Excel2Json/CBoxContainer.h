@@ -7,6 +7,8 @@
 
 #include <vector>
 
+#include "CJsonSettingDlg.h"
+
 class CBoxContainer : public SWindow
 {
 	SOUI_CLASS_NAME(CBoxContainer, L"containerbox")
@@ -76,11 +78,13 @@ protected:
 
 	bool OnEventJsonArrayLButtonDown(EventJsonArrayLButtonDown* pEvt);
 	bool OnEventJsonArrayLButtonUp(EventJsonArrayLButtonUp* pEvt);
-	bool OnEventJsonArrayMouseMoveing(EventJsonArrayMouseMoveing* pEvt);
+	bool OnEventJsonArrayMouseMoveing(EventJsonArrayMouseMoveing* pEvt); 
+	bool OnEventJsonArrayLBDbClk(EventJsonArrayLBDbClk* pEvt);
 
 	bool OnEventJsonObjectLButtonDown(EventJsonObjectLButtonDown* pEvt);
 	bool OnEventJsonObjectLButtonUp(EventJsonObjectLButtonUp* pEvt);
 	bool OnEventJsonObjectMouseMoveing(EventJsonObjectMouseMoveing* pEvt);
+	bool OnEventJsonObjectLButtonDblClk(EventJsonObjectLButtonDblClk* pEvt);
 
 private:
 	int binomial(int n, int i);

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
-//                    LibXL C++ headers version 4.3.0                        //
+//                    LibXL C++ headers version 4.1.0                        //
 //                                                                           //
 //                 Copyright (c) 2008 - 2023 XLware s.r.o.                   //
 //                                                                           //
@@ -74,10 +74,7 @@ namespace libxl
         virtual              int XLAPIENTRY rowHeightPx(int row) const = 0;
 
         virtual             bool XLAPIENTRY setCol(int colFirst, int colLast, double width, IFormatT<TCHAR>* format = 0, bool hidden = false) = 0;
-        virtual             bool XLAPIENTRY setColPx(int colFirst, int colLast, int widthPx, IFormatT<TCHAR>* format = 0, bool hidden = false) = 0;
-
         virtual             bool XLAPIENTRY setRow(int row, double height, IFormatT<TCHAR>* format = 0, bool hidden = false) = 0;
-        virtual             bool XLAPIENTRY setRowPx(int row, int heightPx, IFormatT<TCHAR>* format = 0, bool hidden = false) = 0;
 
         virtual             bool XLAPIENTRY rowHidden(int row) const = 0;
         virtual             bool XLAPIENTRY setRowHidden(int row, bool hidden) = 0;
@@ -215,15 +212,13 @@ namespace libxl
         virtual              int XLAPIENTRY namedRangeSize() const = 0;
         virtual     const TCHAR* XLAPIENTRY namedRange(int index, int* rowFirst, int* rowLast, int* colFirst, int* colLast, int* scopeId = 0, bool* hidden = 0) = 0;
 
-        virtual             bool XLAPIENTRY getTable(const TCHAR* name, int* rowFirst, int* rowLast, int* colFirst, int* colLast, int* headerRowCount, int* totalsRowCount) = 0;
         virtual              int XLAPIENTRY tableSize() const = 0;
         virtual     const TCHAR* XLAPIENTRY table(int index, int* rowFirst, int* rowLast, int* colFirst, int* colLast, int* headerRowCount, int* totalsRowCount) = 0;
 
         virtual              int XLAPIENTRY hyperlinkSize() const = 0;
-        virtual     const TCHAR* XLAPIENTRY hyperlink(int index, int* rowFirst = 0, int* rowLast = 0, int* colFirst = 0, int* colLast = 0) = 0;
+        virtual     const TCHAR* XLAPIENTRY hyperlink(int index, int* rowFirst, int* rowLast, int* colFirst, int* colLast) = 0;
         virtual             bool XLAPIENTRY delHyperlink(int index) = 0;
         virtual             void XLAPIENTRY addHyperlink(const TCHAR* hyperlink, int rowFirst, int rowLast, int colFirst, int colLast) = 0;
-        virtual              int XLAPIENTRY hyperlinkIndex(int row, int col) const = 0;
 
         virtual             bool XLAPIENTRY isAutoFilter() const = 0;
         virtual IAutoFilterT<TCHAR>* XLAPIENTRY autoFilter() = 0;

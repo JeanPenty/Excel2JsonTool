@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<SOUI name="window" 
+      title="JSON信息编辑" 
+      bigIcon="ICON_LOGO:32" 
+      smallIcon="ICON_LOGO:16" 
+      width="350" 
+      height="400" 
+      margin="5,5,5,5" 
+      toolWindow="1" 
+      translucent="1">
+	<root cache="1">
+		<caption pos="0,0,-0,-0" skin="skin_shadow">
+			<caption pos="10,10,-10,-10" colorBkgnd="#FFFFFF">
+				<text pos="10,0,-100,@30" font="face:微软雅黑,size:14">JSON信息编辑</text>
+				<imgbtn name="btn_close" pos="-35,5" skin="skin_btn_close"/>
+
+				<text pos="10,[15,@60,@30" font="face:微软雅黑,size:12">key值：</text>
+				<edit name="edit_key" inset="5,0,0,25" class="cls_edit" pos="[0,{0,-20,@30" password="0"  font="face:微软雅黑,size:12"/>
+
+				<text pos="10,[15,@60,@30" font="face:微软雅黑,size:12">value：</text>
+				<combobox name="cbx_value" pos="[0,{0,-20,@30" dropDown="1" dropHeight="100" class="cls_edit" dotted="0" animateTime="100" btnSkin="skin_cbx_btn" focusable="0" sb_skin="skin_scrollbar" sbWid="8">
+					<liststyle itemHeight="30" colorText="#000000"  colorBkgnd="#FFFFFF" colorSelText="#000000" colorItemBkgnd="rgba(100,100,100,50)" colorItemSelBkgnd="rgba(100,100,100,100)" />
+					<editstyle inset="5,0,5,0" margin="0" colorText="#000000" align="left" colorBkgnd="#FFFFFF" focusable="0"/>
+					<items>
+					</items>
+				</combobox>
+
+				<imgbtn name="btn_ok" pos="-80,-40,@60,@25" skin="skin_btn_comm60_30" text="确定" font="face:微软雅黑,size:12"/>
+			</caption>
+		</caption>
+	</root>
+</SOUI>

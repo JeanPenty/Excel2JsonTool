@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
-//                    LibXL C++ headers version 4.3.0                        //
+//                    LibXL C++ headers version 4.1.0                        //
 //                                                                           //
 //                 Copyright (c) 2008 - 2023 XLware s.r.o.                   //
 //                                                                           //
@@ -14,7 +14,7 @@
 #ifndef LIBXL_CPP_H
 #define LIBXL_CPP_H
 
-#define LIBXL_VERSION 0x04030014
+#define LIBXL_VERSION 0x04010100
 
 #include "IBookT.h"
 #include "ISheetT.h"

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
-//                    LibXL C++ headers version 4.3.0                        //
+//                    LibXL C++ headers version 4.1.0                        //
 //                                                                           //
 //                 Copyright (c) 2008 - 2023 XLware s.r.o.                   //
 //                                                                           //
@@ -30,14 +30,14 @@ namespace libxl {
     struct IBookT
     {
         virtual             bool XLAPIENTRY load(const TCHAR* filename, const TCHAR* tempFile = 0) = 0;
-        virtual             bool XLAPIENTRY loadSheet(const TCHAR* filename, int sheetIndex, const TCHAR* tempFile = 0, bool keepAllSheets = false) = 0;
-        virtual             bool XLAPIENTRY loadPartially(const TCHAR* filename, int sheetIndex, int firstRow, int lastRow, const TCHAR* tempFile = 0, bool keepAllSheets = false) = 0;
+        virtual             bool XLAPIENTRY loadSheet(const TCHAR* filename, int sheetIndex, const TCHAR* tempFile = 0) = 0;
+        virtual             bool XLAPIENTRY loadPartially(const TCHAR* filename, int sheetIndex, int firstRow, int lastRow, const TCHAR* tempFile = 0) = 0;
         virtual             bool XLAPIENTRY loadWithoutEmptyCells(const TCHAR* filename) = 0;
         virtual             bool XLAPIENTRY loadInfo(const TCHAR* filename) = 0;
 
         virtual             bool XLAPIENTRY save(const TCHAR* filename, bool useTempFile = false) = 0;
 
-        virtual             bool XLAPIENTRY loadRaw(const char* data, unsigned size, int sheetIndex = -1, int firstRow = -1, int lastRow = -1, bool keepAllSheets = false) = 0;
+        virtual             bool XLAPIENTRY loadRaw(const char* data, unsigned size, int sheetIndex = -1, int firstRow = -1, int lastRow = -1) = 0;
         virtual             bool XLAPIENTRY saveRaw(const char** data, unsigned* size) = 0;
 
         virtual  ISheetT<TCHAR>* XLAPIENTRY addSheet(const TCHAR* name, ISheetT<TCHAR>* initSheet = 0) = 0;
@@ -50,7 +50,6 @@ namespace libxl {
         virtual              int XLAPIENTRY sheetCount() const = 0;
 
         virtual IFormatT<TCHAR>* XLAPIENTRY addFormat(IFormatT<TCHAR>* initFormat = 0) = 0;
-        virtual IFormatT<TCHAR>* XLAPIENTRY addFormatFromStyle(CellStyle style) = 0;
         virtual   IFontT<TCHAR>* XLAPIENTRY addFont(IFontT<TCHAR>* initFont = 0) = 0;
         virtual IRichStringT<TCHAR>* XLAPIENTRY addRichString() = 0;
         virtual              int XLAPIENTRY addCustomNumFormat(const TCHAR* customNumFormat) = 0;
@@ -106,9 +105,6 @@ namespace libxl {
         virtual             bool XLAPIENTRY isWriteProtected() const = 0;
 
         virtual             bool XLAPIENTRY setLocale(const char* locale) = 0;
-
-        virtual             bool XLAPIENTRY removeVBA() = 0;
-        virtual             bool XLAPIENTRY removePrinterSettings() = 0;
 
         virtual      const char* XLAPIENTRY errorMessage() const = 0;
 

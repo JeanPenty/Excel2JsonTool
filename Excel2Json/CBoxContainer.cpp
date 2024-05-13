@@ -919,6 +919,30 @@ bool CBoxContainer::OnEventJsonArrayMouseMoveing(EventJsonArrayMouseMoveing* pEv
 	return true;
 }
 
+bool CBoxContainer::OnEventJsonArrayLBDbClk(EventJsonArrayLBDbClk* pEvt)
+{
+	CJsonArray* pRoot = sobj_cast<CJsonArray>(pEvt->sender);
+	if (pRoot)
+	{
+		pRoot->getKey();
+		pRoot->getValue();
+
+		//展示设置key  value的窗口
+		CJsonSettingDlg dlg;
+		dlg.setKey(pRoot->getKey());
+		dlg.setValue(pRoot->getValue());
+		if (dlg.DoModal())
+		{
+			SStringW sstrKey = dlg.getKey();
+			SStringW sstrValue = dlg.getValue();
+
+			pRoot->setKey(sstrKey);
+			pRoot->setValue(sstrValue);
+		}
+	}
+	return true;
+}
+
 bool CBoxContainer::OnEventJsonObjectLButtonDown(EventJsonObjectLButtonDown* pEvt)
 {
 	CJsonObject* pRoot = sobj_cast<CJsonObject>(pEvt->sender);
@@ -996,6 +1020,30 @@ bool CBoxContainer::OnEventJsonObjectMouseMoveing(EventJsonObjectMouseMoveing* p
 
 		default:
 			break;
+		}
+	}
+	return true;
+}
+
+bool CBoxContainer::OnEventJsonObjectLButtonDblClk(EventJsonObjectLButtonDblClk* pEvt)
+{
+	CJsonObject* pRoot = sobj_cast<CJsonObject>(pEvt->sender);
+	if (pRoot)
+	{
+		pRoot->getKey();
+		pRoot->getValue();
+
+		//展示设置key  value的窗口
+		CJsonSettingDlg dlg;
+		dlg.setKey(pRoot->getKey());
+		dlg.setValue(pRoot->getValue());
+		if (dlg.DoModal())
+		{
+			SStringW sstrKey = dlg.getKey();
+			SStringW sstrValue = dlg.getValue();
+
+			pRoot->setKey(sstrKey);
+			pRoot->setValue(sstrValue);
 		}
 	}
 	return true;
@@ -1200,6 +1248,7 @@ void CBoxContainer::SetAddType(EcObjType type)
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonArrayLButtonDown, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonArrayLButtonUp, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonArrayMouseMoveing, this);
+		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonArrayLBDbClk, this);
 	}
 	break;
 	case JsonObj:
@@ -1330,6 +1379,7 @@ void CBoxContainer::SetAddType(EcObjType type)
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonDown, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonUp, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectMouseMoveing, this);
+		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonDblClk, this);
 	}
 	break;
 	case JsonSubObj:

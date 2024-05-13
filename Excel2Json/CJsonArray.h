@@ -37,6 +37,15 @@ public:
 	EcPosType m_ecPosType;
 };
 
+class EventJsonArrayLBDbClk : public TplEventArgs<EventJsonArrayLBDbClk>
+{
+	SOUI_CLASS_NAME(EventJsonArrayLBDbClk, L"json_array_lbdbclk")
+public:
+	EventJsonArrayLBDbClk(SObject* pSender)
+		: TplEventArgs<EventJsonArrayLBDbClk>(pSender) {}
+	enum { EventID = EVT_EXTERNAL_BEGIN + 64 };
+};
+
 class CJsonArray : public SWindow
 {
 	SOUI_CLASS_NAME(CJsonArray, L"json_array")
@@ -53,6 +62,7 @@ protected:
 	void OnMouseMove(UINT nFlags, SOUI::CPoint point);
 	void OnMouseHover(WPARAM wParam, CPoint ptPos);
 	void OnMouseLeave();
+	void OnLButtonDblClk(UINT nFlags, SOUI::CPoint point);
 
 protected:
 	SOUI_MSG_MAP_BEGIN()
@@ -64,6 +74,7 @@ protected:
 		MSG_WM_MOUSEMOVE(OnMouseMove)
 		MSG_WM_MOUSEHOVER(OnMouseHover)
 		MSG_WM_MOUSELEAVE(OnMouseLeave)
+		MSG_WM_LBUTTONDBLCLK(OnLButtonDblClk)
 
 		SOUI_MSG_MAP_END()
 
@@ -81,6 +92,9 @@ private:
 	int		m_nY;
 
 	std::vector<SWindow*> m_vecChild;
+
+	SStringW	m_sstrKey;		//json key
+	SStringW	m_sstrValue;	//json value 对应的excel表头
 public:
 	EcPosType HitPos(SOUI::CPoint& pt);
 	void ShowCursor(EcPosType ePos);
@@ -91,6 +105,12 @@ public:
 	int getPosX();
 	void setPosY(int nY);
 	int getPosY();
+
+	void setKey(SStringW sstrKey);
+	SStringW getKey();
+
+	void setValue(SStringW sstrValue);
+	SStringW getValue();
 
 	void addRootChild(SWindow* pWindow);
 	std::vector<SWindow*> getRootChildren();

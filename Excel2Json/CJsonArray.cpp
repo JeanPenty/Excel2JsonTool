@@ -21,6 +21,9 @@ CJsonArray::CJsonArray()
 	m_evtSet.addEvent(EVENTID(EventJsonArrayLButtonDown));
 	m_evtSet.addEvent(EVENTID(EventJsonArrayLButtonUp));
 	m_evtSet.addEvent(EVENTID(EventJsonArrayMouseMoveing));
+	m_evtSet.addEvent(EVENTID(EventJsonArrayLBDbClk));
+
+	m_sstrKey = L"JSON数组";
 }
 
 CJsonArray::~CJsonArray()
@@ -111,8 +114,7 @@ void CJsonArray::OnPaint(IRenderTarget* pRT)
 		pRT->SelectObject(oldpen, NULL);
 	}
 
-	SStringW sstrContent = L"JSON数组";
-	pRT->DrawText(sstrContent, -1, (LPRECT)rcReal, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+	pRT->DrawText(m_sstrKey, -1, (LPRECT)rcReal, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
 }
 
 void CJsonArray::OnLButtonDown(UINT nFlags, SOUI::CPoint point)
@@ -174,6 +176,14 @@ void CJsonArray::OnMouseLeave()
 	m_bHover = false;
 
 	Invalidate();
+}
+
+void CJsonArray::OnLButtonDblClk(UINT nFlags, SOUI::CPoint point)
+{
+	SetMsgHandled(FALSE);
+
+	EventJsonArrayLBDbClk evt(this);
+	FireEvent(evt);
 }
 
 EcPosType CJsonArray::HitPos(SOUI::CPoint& pt)
@@ -241,6 +251,28 @@ void CJsonArray::setPosY(int nY)
 int CJsonArray::getPosY()
 {
 	return m_nY;
+}
+
+void CJsonArray::setKey(SStringW sstrKey)
+{
+	m_sstrKey = sstrKey;
+	Invalidate();
+}
+
+SStringW CJsonArray::getKey()
+{
+	return m_sstrKey;
+}
+
+void CJsonArray::setValue(SStringW sstrValue)
+{
+	m_sstrValue = sstrValue;
+	Invalidate();
+}
+
+SStringW CJsonArray::getValue()
+{
+	return m_sstrValue;
 }
 
 void CJsonArray::addRootChild(SWindow* pWindow)

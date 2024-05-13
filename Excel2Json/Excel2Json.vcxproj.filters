@@ -50,6 +50,12 @@
     <ClCompile Include="CJsonSubObject.cpp">
       <Filter>控件</Filter>
     </ClCompile>
+    <ClCompile Include="CGlobalUnits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CJsonSettingDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Excel2Json.rc">
@@ -81,6 +87,12 @@
     <ClInclude Include="CJsonSubObject.h">
       <Filter>控件</Filter>
     </ClInclude>
+    <ClInclude Include="CGlobalUnits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CJsonSettingDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\soui_res.rc2">
@@ -107,6 +119,9 @@
       <Filter>SoUI Resource</Filter>
     </Xml>
     <Xml Include="uires\Translator\lang_jp.xml">
+      <Filter>SoUI Resource</Filter>
+    </Xml>
+    <Xml Include="uires\xml\dlg_setting.xml">
       <Filter>SoUI Resource</Filter>
     </Xml>
   </ItemGroup>

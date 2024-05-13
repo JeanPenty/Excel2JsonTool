@@ -186,9 +186,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBoxContainer.cpp" />
+    <ClCompile Include="CGlobalUnits.cpp" />
     <ClCompile Include="CJsonArray.cpp" />
     <ClCompile Include="CJsonObject.cpp" />
     <ClCompile Include="CJsonRoot.cpp" />
+    <ClCompile Include="CJsonSettingDlg.cpp" />
     <ClCompile Include="CJsonSubObject.cpp" />
     <ClCompile Include="Excel2Json.cpp" />
     <ClCompile Include="MainDlg.cpp" />
@@ -204,9 +206,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBoxContainer.h" />
+    <ClInclude Include="CGlobalUnits.h" />
     <ClInclude Include="CJsonArray.h" />
     <ClInclude Include="CJsonObject.h" />
     <ClInclude Include="CJsonRoot.h" />
+    <ClInclude Include="CJsonSettingDlg.h" />
     <ClInclude Include="CJsonSubObject.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="resource.h" />
@@ -237,6 +241,7 @@
     <Xml Include="uires\values\skin.xml" />
     <Xml Include="uires\values\string.xml" />
     <Xml Include="uires\xml\dlg_main.xml" />
+    <Xml Include="uires\xml\dlg_setting.xml" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="uires\image\soui.ico" />
