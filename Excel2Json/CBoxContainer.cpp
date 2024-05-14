@@ -10,6 +10,10 @@ CBoxContainer::CBoxContainer(void)
 	m_nObjWidth = 100;
 	m_nObjHeight = 40;
 	m_nObjGap = 30;
+
+	m_nRootCut = 0;
+	m_nArrCnt = 0;
+	m_nObjCnt = 0;
 }
 
 CBoxContainer::~CBoxContainer(void)
@@ -1114,6 +1118,11 @@ void CBoxContainer::SetAddType(EcObjType type)
 		pRoot->setPosX(nX);
 		pRoot->setPosY(nY);
 
+		SStringW sstrContent;
+		sstrContent.Format(L"Json根对象%d", m_nRootCut);
+		pRoot->setKey(sstrContent);
+		m_nRootCut++;
+
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonRootLButtonDown, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonRootLButtonUp, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonRootMouseMoveing, this);
@@ -1240,10 +1249,18 @@ void CBoxContainer::SetAddType(EcObjType type)
 
 				pCurObj->addRootChild(pRoot);
 			}
+
+			pRoot->setObjParent(m_curObject);
 		}
 
 		pRoot->setPosX(nX);
 		pRoot->setPosY(nY);
+
+
+		SStringW sstrContent;
+		sstrContent.Format(L"Json数组%d", m_nArrCnt);
+		pRoot->setKey(sstrContent);
+		m_nArrCnt++;
 
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonArrayLButtonDown, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonArrayLButtonUp, this);
@@ -1371,10 +1388,16 @@ void CBoxContainer::SetAddType(EcObjType type)
 
 				pCurObj->addRootChild(pRoot);
 			}
+			pRoot->setObjParent(m_curObject);
 		}
 
 		pRoot->setPosX(nX);
 		pRoot->setPosY(nY);
+
+		SStringW sstrContent;
+		sstrContent.Format(L"Json对象%d", m_nObjCnt);
+		pRoot->setKey(sstrContent);
+		m_nObjCnt++;
 
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonDown, this);
 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonUp, this);
@@ -1410,4 +1433,153 @@ CBoxContainer::Point CBoxContainer::bezier_curve(const std::vector<CBoxContainer
 		res.y = res.y + points[i].y * b;
 	}
 	return res;
+}
+
+void CBoxContainer::GeneralJson()
+{
+	//生成JSON 字符串
+
+	//找到最顶层的元素、然后根据其子控件关联的数据生成JSON数据
+	SWindow* pRoot = NULL;
+	for (int i = 0; i < GetChildrenCount(); i++)
+	{
+		SWindow* pChild = GetChild(i + 1);
+		SStringW sstrClass = pChild->GetObjectClass();
+		if (sstrClass == L"json_root")
+		{
+			CJsonRoot* pObj = sobj_cast<CJsonRoot>(pChild);
+			if (!pObj->getObjParent())
+			{
+				pRoot = pObj;
+				break;
+			}
+		}
+		else if (sstrClass == L"json_array")
+		{
+			CJsonArray* pObj = sobj_cast<CJsonArray>(pChild);
+			if (!pObj->getObjParent())
+			{
+				pRoot = pObj;
+				break;
+			}
+		}
+		else if (sstrClass == L"json_array")
+		{
+			CJsonObject* pObj = sobj_cast<CJsonObject>(pChild);
+			if (!pObj->getObjParent())
+			{
+				pRoot = pObj;
+				break;
+			}
+		}
+	}
+
+	std::string strJson = praseJsonFormat(pRoot);
+
+	std::ofstream ofs;
+	ofs.open("json.txt", std::ios::out);
+	ofs << strJson.c_str();
+	ofs.close();
+
+	//将数据写入文件，然后打开文件
+	ShellExecuteW(NULL, L"open", L"json.txt", NULL, NULL, SW_SHOW);
+}
+
+std::string CBoxContainer::praseJsonFormat(SWindow* pSWindow)
+{
+	std::ostringstream os;
+	os.str("");
+
+	SStringW sstrClass = pSWindow->GetObjectClass();
+	if (sstrClass == L"json_root")
+	{
+		CJsonRoot* pObj = sobj_cast<CJsonRoot>(pSWindow);
+		std::vector<SWindow*> vecChildren = pObj->getRootChildren();
+		if (vecChildren.size() == 0)
+			os << "{}";
+		else
+		{
+			os << "{";
+			for (int i = 0; i < vecChildren.size(); i++)
+			{
+				std::string strRet = praseJsonFormat(vecChildren[i]);
+				os << strRet;
+
+				if (i < vecChildren.size() - 1)
+					os << ",";
+			}
+			os << "}";
+		}
+	}
+	else if (sstrClass == L"json_array")
+	{
+		CJsonArray* pObj = sobj_cast<CJsonArray>(pSWindow);
+		std::vector<SWindow*> vecChildren = pObj->getRootChildren();
+
+		SStringW sstrKey = pObj->getKey();
+		std::string strKey = S_CW2A(sstrKey);
+		if (vecChildren.size() == 0)
+		{
+			os << "\"" << strKey.c_str() << "\"" << ":";
+			os << "[";
+			os << "]";
+		}
+		else
+		{
+			os << "\"" << strKey.c_str() << "\"" << ":";
+			os << "[";
+			os << "{";
+			for (int i = 0; i < vecChildren.size(); i++)
+			{
+				std::string strRet = praseJsonFormat(vecChildren[i]);
+				os << strRet.c_str();
+				if (i < vecChildren.size() - 1)
+					os << ",";
+			}
+			os << "}";
+			os << "]";
+		}
+	}
+	else if (sstrClass == L"json_object")
+	{
+		CJsonObject* pObj = sobj_cast<CJsonObject>(pSWindow);
+		std::vector<SWindow*> vecChildren = pObj->getRootChildren();
+		SStringW sstrKey = pObj->getKey();
+		SStringW sstrValue = pObj->getValue();
+		std::string strKey = S_CW2A(sstrKey);
+		std::string strValue = S_CW2A(sstrValue);
+		if (vecChildren.size() == 0)
+		{
+			os << "\"" << strKey.c_str() << "\"" << ":";
+			os << "\"" << strValue.c_str() << "\"";
+		}
+		else
+		{
+			os << "\"" << strKey.c_str() << "\"" << ":";
+			if (strValue == "")
+			{
+				os << "{";
+				for (int i = 0; i < vecChildren.size(); i++)
+				{
+					std::string strRet = praseJsonFormat(vecChildren[i]);
+					os << strRet.c_str();
+					if (i < vecChildren.size() - 1)
+						os << ",";
+				}
+				os << "}";
+			}
+			else
+			{
+				for (int i = 0; i < vecChildren.size(); i++)
+				{
+					std::string strRet = praseJsonFormat(vecChildren[i]);
+					os << strRet.c_str();
+					if (i < vecChildren.size() - 1)
+						os << ",";
+				}
+			}
+		}
+	}
+
+	return os.str();
 }

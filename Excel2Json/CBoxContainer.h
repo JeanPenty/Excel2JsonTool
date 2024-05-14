@@ -6,6 +6,9 @@
 #include "CJsonSubObject.h"
 
 #include <vector>
+#include <sstream>
+#include <fstream>
+#include <shellapi.h>
 
 #include "CJsonSettingDlg.h"
 
@@ -49,6 +52,7 @@ protected:
 
 public:
 	void SetAddType(EcObjType type);
+	void GeneralJson();
 
 private:
 	SOUI::CPoint	m_ptDown;				//鼠标按下的位置
@@ -71,6 +75,10 @@ private:
 	int	m_nObjWidth;
 	int	m_nObjHeight;
 	int	m_nObjGap;
+
+	int	m_nRootCut;
+	int m_nArrCnt;
+	int m_nObjCnt;
 protected:
 	bool OnEventJsonRootLButtonDown(EventJsonRootLButtonDown* pEvt);
 	bool OnEventJsonRootLButtonUp(EventJsonRootLButtonUp* pEvt);
@@ -89,4 +97,6 @@ protected:
 private:
 	int binomial(int n, int i);
 	Point bezier_curve(const std::vector<Point>& points, float t);
+
+	std::string praseJsonFormat(SWindow* pSWindow);
 };

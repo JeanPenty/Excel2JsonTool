@@ -82,6 +82,9 @@ private:
 	int		m_nY;
 
 	std::vector<SWindow*> m_vecChild;
+	SWindow* m_pObjParent;
+
+	SStringW m_sstrKey;
 public:
 	EcPosType HitPos(SOUI::CPoint& pt);
 	void ShowCursor(EcPosType ePos);
@@ -92,6 +95,11 @@ public:
 	int getPosX();
 	void setPosY(int nY);
 	int getPosY();
+
+	void setObjParent(SWindow* pParent);
+	SWindow* getObjParent();
+
+	void setKey(SStringW sstrKey);
 
 	void addRootChild(SWindow* pWindow);
 	std::vector<SWindow*> getRootChildren();

@@ -24,6 +24,8 @@ CJsonArray::CJsonArray()
 	m_evtSet.addEvent(EVENTID(EventJsonArrayLBDbClk));
 
 	m_sstrKey = L"JSONÊý×é";
+
+	m_pObjParent = NULL;
 }
 
 CJsonArray::~CJsonArray()
@@ -273,6 +275,16 @@ void CJsonArray::setValue(SStringW sstrValue)
 SStringW CJsonArray::getValue()
 {
 	return m_sstrValue;
+}
+
+void CJsonArray::setObjParent(SWindow* pParent)
+{
+	m_pObjParent = pParent;
+}
+
+SWindow* CJsonArray::getObjParent()
+{
+	return m_pObjParent;
 }
 
 void CJsonArray::addRootChild(SWindow* pWindow)

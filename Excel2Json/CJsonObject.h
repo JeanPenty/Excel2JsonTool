@@ -89,6 +89,7 @@ private:
 	int		m_nY;
 
 	std::vector<SWindow*> m_vecChild;
+	SWindow* m_pObjParent;
 
 	SStringW	m_sstrKey;		//json key
 	SStringW	m_sstrValue;	//json value 对应的excel表头
@@ -105,6 +106,9 @@ public:
 
 	void setKey(SStringW sstrKey);
 	SStringW getKey();
+
+	void setObjParent(SWindow* pParent);
+	SWindow* getObjParent();
 
 	void setValue(SStringW sstrValue);
 	SStringW getValue();

@@ -24,6 +24,8 @@ CJsonObject::CJsonObject()
 	m_evtSet.addEvent(EVENTID(EventJsonObjectLButtonDblClk));
 
 	m_sstrKey = L"JSON∂‘œÛ";
+
+	m_pObjParent = NULL;
 }
 
 CJsonObject::~CJsonObject()
@@ -274,6 +276,16 @@ void CJsonObject::setValue(SStringW sstrValue)
 SStringW CJsonObject::getValue()
 {
 	return m_sstrValue;
+}
+
+void CJsonObject::setObjParent(SWindow* pParent)
+{
+	m_pObjParent = pParent;
+}
+
+SWindow* CJsonObject::getObjParent()
+{
+	return m_pObjParent;
 }
 
 void CJsonObject::addRootChild(SWindow* pWindow)

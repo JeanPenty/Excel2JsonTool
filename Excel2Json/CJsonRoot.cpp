@@ -22,6 +22,10 @@ CJsonRoot::CJsonRoot()
 	m_evtSet.addEvent(EVENTID(EventJsonRootLButtonDown));
 	m_evtSet.addEvent(EVENTID(EventJsonRootLButtonUp));
 	m_evtSet.addEvent(EVENTID(EventJsonRootMouseMoveing));
+
+	m_pObjParent = NULL;
+
+	m_sstrKey = L"JSON根对象";
 }
 
 CJsonRoot::~CJsonRoot()
@@ -113,8 +117,7 @@ void CJsonRoot::OnPaint(IRenderTarget* pRT)
 		pRT->SelectObject(oldpen, NULL);
 	}
 
-	SStringW sstrContent = L"JSON根对象";
-	pRT->DrawText(sstrContent, -1, (LPRECT)rcReal, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+	pRT->DrawText(m_sstrKey, -1, (LPRECT)rcReal, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
 }
 
 void CJsonRoot::OnLButtonDown(UINT nFlags, SOUI::CPoint point)
@@ -258,6 +261,16 @@ int CJsonRoot::getPosY()
 	return m_nY;
 }
 
+void CJsonRoot::setObjParent(SWindow* pParent)
+{
+	m_pObjParent = pParent;
+}
+
+SWindow* CJsonRoot::getObjParent()
+{
+	return m_pObjParent;
+}
+
 void CJsonRoot::addRootChild(SWindow* pWindow)
 {
 	m_vecChild.push_back(pWindow);
@@ -266,4 +279,10 @@ void CJsonRoot::addRootChild(SWindow* pWindow)
 std::vector<SWindow*> CJsonRoot::getRootChildren()
 {
 	return m_vecChild;
+}
+
+void CJsonRoot::setKey(SStringW sstrKey)
+{
+	m_sstrKey = sstrKey;
+	Invalidate();
 }
