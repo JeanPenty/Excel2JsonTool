@@ -5,10 +5,12 @@
 #include "CJsonObject.h"
 #include "CJsonSubObject.h"
 
+#include <iostream>
 #include <vector>
 #include <sstream>
 #include <fstream>
 #include <shellapi.h>
+#include <string>
 
 #include "CJsonSettingDlg.h"
 

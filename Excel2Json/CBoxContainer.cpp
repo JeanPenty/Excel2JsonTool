@@ -1476,9 +1476,44 @@ void CBoxContainer::GeneralJson()
 
 	std::string strJson = praseJsonFormat(pRoot);
 
+	std::ostringstream os;
+	//测试只替换第一行数据
+	std::map<int, int> mapTmp;  //找到最大行
+	auto iter = CGlobalUnits::GetInstance()->m_mapTitleDatas.begin();
+	for (; iter != CGlobalUnits::GetInstance()->m_mapTitleDatas.end(); iter++)
+	{
+		mapTmp[iter->second.size()] = iter->second.size();
+	}
+	int nMaxRow = 0;
+	if (mapTmp.size() > 0)
+	{
+		auto iterTmp = mapTmp.rbegin();
+		nMaxRow = iterTmp->first;;
+	}
+	
+	std::string strContent = "";
+	for (int i = 0; i < nMaxRow; i++)
+	{
+		os.str("");
+		SStringW sstrJson = S_CA2W(strJson.c_str());
+		iter = CGlobalUnits::GetInstance()->m_mapTitleDatas.begin();
+		for (; iter != CGlobalUnits::GetInstance()->m_mapTitleDatas.end(); iter++)
+		{
+			if (iter->second.size() > 0)
+			{
+				sstrJson.Replace(iter->first, iter->second[i]);
+			}
+		}
+		std::string strTmp = S_CW2A(sstrJson);
+		os << strTmp << "\n\n";
+
+		strContent += os.str();
+	}
+
 	std::ofstream ofs;
 	ofs.open("json.txt", std::ios::out);
-	ofs << strJson.c_str();
+	ofs << strContent.c_str();
+	ofs << "\n";
 	ofs.close();
 
 	//将数据写入文件，然后打开文件
