@@ -5,7 +5,7 @@ CJsonRoot::CJsonRoot()
 {
 	m_bSelected = false;
 	m_bHover = false;
-	m_bLBDown - false;
+	m_bLBDown = false;
 
 	m_hCursorSelect = LoadCursor(NULL, IDC_SIZEALL);
 	m_hCursorTopRight = LoadCursor(NULL, IDC_SIZENESW);
@@ -117,7 +117,50 @@ void CJsonRoot::OnPaint(IRenderTarget* pRT)
 		pRT->SelectObject(oldpen, NULL);
 	}
 
-	pRT->DrawText(m_sstrKey, -1, (LPRECT)rcReal, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+	//绘制文本
+	{
+		//HDC hDC = pRT->GetDC();
+		CPoint ptCenter = rcReal.CenterPoint();
+		CRect rcKey(rcReal);
+		rcKey.bottom = ptCenter.y;
+		rcKey.DeflateRect(1, 1, 1, 1);
+
+		CRect rcValue(rcReal);
+		rcValue.top = ptCenter.y;
+		rcValue.DeflateRect(1, 1, 1, 1);
+
+		//绘制key
+		SStringW sstrKeyContent;
+		sstrKeyContent.Format(L"key:%s", m_sstrKey);
+		//pRT->DrawText(sstrKeyContent, -1, (LPRECT)rcKey, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+
+		//绘制Value
+		SStringW sstrValueContent;
+		sstrValueContent.Format(L"value:%s", m_sstrValue);
+		//pRT->DrawText(sstrValueContent, -1, (LPRECT)rcValue, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+
+// 		int nKeyCnt = sstrKeyContent.GetLength();
+// 		int nRcKeyWidth = rcKey.Width();
+// 
+// 		LOGFONT lf;
+// 		GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(lf), &lf);
+// 		lf.lfHeight = 0;
+// 		lf.lfWidth = 0;
+// 		_tcscpy(lf.lfFaceName, _T("宋体"));
+// 		HFONT m_font = CreateFontIndirect(&lf);
+// 		HFONT oldFont = (HFONT)SelectObject(hDC, m_font);
+// 
+// 		::DrawText(hDC, sstrKeyContent, -1, &rcKey, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+
+
+		DrawText(pRT, m_sstrKey, -1, &rcReal, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+
+// 		DrawText(pRT, sstrKeyContent, -1, &rcKey, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+// 		DrawText(pRT, sstrValueContent, -1, &rcValue, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE);
+
+// 		SelectObject(hDC, oldFont);
+// 		::ReleaseDC(NULL, hDC);
+	}
 }
 
 void CJsonRoot::OnLButtonDown(UINT nFlags, SOUI::CPoint point)

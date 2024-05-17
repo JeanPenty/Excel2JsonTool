@@ -85,6 +85,7 @@ private:
 	SWindow* m_pObjParent;
 
 	SStringW m_sstrKey;
+	SStringW m_sstrValue;
 public:
 	EcPosType HitPos(SOUI::CPoint& pt);
 	void ShowCursor(EcPosType ePos);

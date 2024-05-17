@@ -96,6 +96,8 @@ protected:
 	bool OnEventJsonObjectMouseMoveing(EventJsonObjectMouseMoveing* pEvt);
 	bool OnEventJsonObjectLButtonDblClk(EventJsonObjectLButtonDblClk* pEvt);
 
+
+	bool OnEventJsonSubObjectResize(EventJsonSubObjectResize* pEvt);
 private:
 	int binomial(int n, int i);
 	Point bezier_curve(const std::vector<Point>& points, float t);

@@ -7,8 +7,8 @@ CBoxContainer::CBoxContainer(void)
 
 	m_curObject = NULL;
 
-	m_nObjWidth = 100;
-	m_nObjHeight = 40;
+	m_nObjWidth = 150;
+	m_nObjHeight = 50;
 	m_nObjGap = 30;
 
 	m_nRootCut = 0;
@@ -43,7 +43,7 @@ void CBoxContainer::OnPaint(IRenderTarget* pRT)
 	{
 		std::vector<std::vector<CPoint>> vecLines;
 		CAutoRefPtr<IPen> pen, oldpen;
-		pRT->CreatePen(PS_SOLID, RGBA(0, 0, 100, 255), 1, &pen);
+		pRT->CreatePen(PS_SOLID, RGBA(0, 0, 100, 255), 3, &pen);
 		pRT->SelectObject(pen, (IRenderObj**)&oldpen);
 
 		//计算元素之间的连接线
@@ -128,6 +128,10 @@ void CBoxContainer::OnPaint(IRenderTarget* pRT)
 								pt.y = vecBezierPath[i].y;
 								vecPoly.push_back(pt);
 							}
+							POINT ptEnd;
+							ptEnd.x = pt3.x;
+							ptEnd.y = pt3.y;
+							vecPoly.push_back(ptEnd);
 							if (vecPoly.size() > 0)
 								path->addPoly(&vecPoly[0], vecPoly.size(), false);
 
@@ -178,6 +182,10 @@ void CBoxContainer::OnPaint(IRenderTarget* pRT)
 								pt.y = vecBezierPath[i].y;
 								vecPoly.push_back(pt);
 							}
+							POINT ptEnd;
+							ptEnd.x = pt3.x;
+							ptEnd.y = pt3.y;
+							vecPoly.push_back(ptEnd);
 							if (vecPoly.size() > 0)
 								path->addPoly(&vecPoly[0], vecPoly.size(), false);
 
@@ -228,6 +236,10 @@ void CBoxContainer::OnPaint(IRenderTarget* pRT)
 								pt.y = vecBezierPath[i].y;
 								vecPoly.push_back(pt);
 							}
+							POINT ptEnd;
+							ptEnd.x = pt3.x;
+							ptEnd.y = pt3.y;
+							vecPoly.push_back(ptEnd);
 							if (vecPoly.size() > 0)
 								path->addPoly(&vecPoly[0], vecPoly.size(), false);
 
@@ -635,6 +647,11 @@ void CBoxContainer::OnLButtonDown(UINT nFlags, SOUI::CPoint point)
 		else if (sstrClassName == L"json_object")
 		{
 			CJsonObject* pArray = sobj_cast<CJsonObject>(pChild);
+			pArray->setSelect(false);
+		}
+		else if (sstrClassName == L"json_subobject")
+		{
+			CJsonSubObject* pArray = sobj_cast<CJsonSubObject>(pChild);
 			pArray->setSelect(false);
 		}
 	}
@@ -1053,6 +1070,43 @@ bool CBoxContainer::OnEventJsonObjectLButtonDblClk(EventJsonObjectLButtonDblClk*
 	return true;
 }
 
+bool CBoxContainer::OnEventJsonSubObjectResize(EventJsonSubObjectResize* pEvt)
+{
+	CJsonSubObject* pObj = sobj_cast<CJsonSubObject>(pEvt->sender);
+	if (pObj)
+	{
+		CRect rcObj = pObj->GetWindowRect();
+
+		int nWidth = rcObj.Width();
+		int nHeight = rcObj.Height();
+
+		if (pEvt->m_nNewWidth > rcObj.Width() - 30)
+			nWidth = pEvt->m_nNewWidth + 30;
+// 		else
+// 			nWidth = m_nObjWidth;
+
+		if (pEvt->m_nNewHeight > rcObj.Height() - 30)
+			nHeight = pEvt->m_nNewHeight + 30;
+// 		else
+// 			nHeight = m_nObjHeight;
+
+// 		if (nWidth > 300 - 10)
+// 		{ 
+// 			nWidth = rcObj.Width();
+// 			pObj->editInsertBreak();
+// 		}
+
+		SStringW sstrSize;
+		sstrSize.Format(L"%d,%d", nWidth, nHeight);
+		pObj->SetAttribute(L"size", sstrSize);
+		pObj->setWidth(nWidth);
+		pObj->setHeight(nHeight);
+
+		pObj->setEditSize();
+	}
+	return true;
+}
+
 void CBoxContainer::SetAddType(EcObjType type)
 {
 	//m_curEcObjType = type;
@@ -1406,6 +1460,146 @@ void CBoxContainer::SetAddType(EcObjType type)
 	}
 	break;
 	case JsonSubObj:
+	{
+		CJsonSubObject* pRoot = (CJsonSubObject*)SApplication::getSingleton().CreateWindowByName(L"json_subobject");
+		SASSERT(pRoot);
+		SApplication::getSingleton().SetSwndDefAttr(pRoot);
+		this->InsertChild(pRoot);
+		pRoot->SSendMessage(WM_CREATE);
+		int nX, nY;
+		if (!m_curObject)
+		{
+			nX = 200;
+			nY = 200;
+
+			SStringW sstrPos;
+			sstrPos.Format(L"%d, %d, @%d, @%d", nX, nY, m_nObjWidth, m_nObjHeight);
+			pRoot->SetAttribute(L"pos", sstrPos);
+			m_curObject = pRoot;
+		}
+		else
+		{
+			SStringW sstrClassName = m_curObject->GetObjectClass();
+			if (sstrClassName == L"json_root") //父节点为root
+			{
+				CJsonRoot* pCurObj = sobj_cast<CJsonRoot>(m_curObject);
+				std::vector<SWindow*> vecChildren = pCurObj->getRootChildren();
+				if (vecChildren.size() == 0)
+				{
+					nX = pCurObj->getPosX() + m_nObjWidth + 60;
+					nY = pCurObj->getPosY();
+
+					SStringT sstrPos;
+					sstrPos.Format(L"%d,%d,@%d,@%d", nX, nY, m_nObjWidth, m_nObjHeight);
+					pRoot->SetAttribute(L"pos", sstrPos);
+				}
+				else
+				{
+					//需要重新布局
+					vecChildren.push_back(pRoot);
+					//总大小为数量*单个宽度 + 间隔*（数量 - 1）
+					//间隔设置为30
+					//int nTotalHeight = vecChildren.size() * 60 + (vecChildren.size() - 1) * 30;
+					for (int i = 0; i < vecChildren.size(); i++)
+					{
+						nX = pCurObj->getPosX() + m_nObjWidth + 60;
+						nY = pCurObj->getPosY() + i * (m_nObjHeight + m_nObjGap);
+					}
+
+					SStringT sstrPos;
+					sstrPos.Format(L"%d,%d,@%d,@%d", nX, nY, m_nObjWidth, m_nObjHeight);
+					pRoot->SetAttribute(L"pos", sstrPos);
+				}
+
+				pCurObj->addRootChild(pRoot);
+			}
+			else if (sstrClassName == L"json_array")
+			{
+				CJsonArray* pCurObj = sobj_cast<CJsonArray>(m_curObject);
+				std::vector<SWindow*> vecChildren = pCurObj->getRootChildren();
+				if (vecChildren.size() == 0)
+				{
+					nX = pCurObj->getPosX() + m_nObjWidth + 60;
+					nY = pCurObj->getPosY();
+
+					SStringT sstrPos;
+					sstrPos.Format(L"%d,%d,@%d,@%d", nX, nY, m_nObjWidth, m_nObjHeight);
+					pRoot->SetAttribute(L"pos", sstrPos);
+				}
+				else
+				{
+					//需要重新布局
+					vecChildren.push_back(pRoot);
+					//总大小为数量*单个宽度 + 间隔*（数量 - 1）
+					//间隔设置为30
+					//int nTotalHeight = vecChildren.size() * 60 + (vecChildren.size() - 1) * 30;
+					for (int i = 0; i < vecChildren.size(); i++)
+					{
+						nX = pCurObj->getPosX() + m_nObjWidth + 60;
+						nY = pCurObj->getPosY() + i * (m_nObjHeight + m_nObjGap);
+					}
+
+					SStringT sstrPos;
+					sstrPos.Format(L"%d,%d,@%d,@%d", nX, nY, m_nObjWidth, m_nObjHeight);
+					pRoot->SetAttribute(L"pos", sstrPos);
+				}
+
+				pCurObj->addRootChild(pRoot);
+			}
+			else if (sstrClassName == L"json_object")
+			{
+				CJsonObject* pCurObj = sobj_cast<CJsonObject>(m_curObject);
+				std::vector<SWindow*> vecChildren = pCurObj->getRootChildren();
+				if (vecChildren.size() == 0)
+				{
+					nX = pCurObj->getPosX() + m_nObjWidth + 60;
+					nY = pCurObj->getPosY();
+
+					SStringT sstrPos;
+					sstrPos.Format(L"%d,%d,@%d,@%d", nX, nY, m_nObjWidth, m_nObjHeight);
+					pRoot->SetAttribute(L"pos", sstrPos);
+				}
+				else
+				{
+					//需要重新布局
+					vecChildren.push_back(pRoot);
+					//总大小为数量*单个宽度 + 间隔*（数量 - 1）
+					//间隔设置为30
+					//int nTotalHeight = vecChildren.size() * 60 + (vecChildren.size() - 1) * 30;
+					for (int i = 0; i < vecChildren.size(); i++)
+					{
+						nX = pCurObj->getPosX() + m_nObjWidth + 60;
+						nY = pCurObj->getPosY() + i * (m_nObjHeight + m_nObjGap);
+					}
+
+					SStringT sstrPos;
+					sstrPos.Format(L"%d,%d,@%d,@%d", nX, nY, m_nObjWidth, m_nObjHeight);
+					pRoot->SetAttribute(L"pos", sstrPos);
+				}
+
+				pCurObj->addRootChild(pRoot);
+			}
+			//pRoot->setObjParent(m_curObject);
+		}
+
+		pRoot->setWidth(m_nObjWidth);
+		pRoot->setHeight(m_nObjHeight);
+
+// 		pRoot->setPosX(nX);
+// 		pRoot->setPosY(nY);
+
+// 		SStringW sstrContent;
+// 		sstrContent.Format(L"Json对象%d", m_nObjCnt);
+// 		pRoot->setKey(sstrContent);
+// 		m_nObjCnt++;
+
+// 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonDown, this);
+// 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonUp, this);
+// 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectMouseMoveing, this);
+// 		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonObjectLButtonDblClk, this);
+
+		pRoot->GetEventSet()->subscribeEvent(&CBoxContainer::OnEventJsonSubObjectResize, this);
+	}
 		break;
 	default:
 		break;

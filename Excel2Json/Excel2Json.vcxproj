@@ -192,6 +192,7 @@
     <ClCompile Include="CJsonRoot.cpp" />
     <ClCompile Include="CJsonSettingDlg.cpp" />
     <ClCompile Include="CJsonSubObject.cpp" />
+    <ClCompile Include="CObjEdit.cpp" />
     <ClCompile Include="Excel2Json.cpp" />
     <ClCompile Include="MainDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -212,6 +213,7 @@
     <ClInclude Include="CJsonRoot.h" />
     <ClInclude Include="CJsonSettingDlg.h" />
     <ClInclude Include="CJsonSubObject.h" />
+    <ClInclude Include="CObjEdit.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

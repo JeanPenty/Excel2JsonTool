@@ -25,7 +25,7 @@
 						<button name="btn_root" pos="10,15,@50,@20" focusable="0">根对象</button>
 						<button name="btn_array" pos="[10,{0,@50,@20" focusable="0">数组</button>
 						<button name="btn_obj" pos="[10,{0,@50,@20" focusable="0">对象</button>
-						<button name="btn_subobj" pos="[10,{0,@50,@20" focusable="0" show="0">子对象</button>
+						<button name="btn_subobj" pos="[10,{0,@50,@20" focusable="0" show="1">子对象</button>
 
 						<button name="btn_selected" pos="[10,{0,@70,@20" focusable="0" >选择文件</button>
 						<edit name="edit_path" inset="5,0,0,25" class="cls_edit" pos="[10,{0,-100,@30" password="0"  font="face:微软雅黑,size:12"/>
